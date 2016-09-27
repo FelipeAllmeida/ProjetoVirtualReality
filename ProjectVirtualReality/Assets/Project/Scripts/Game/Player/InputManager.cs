@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
 
     public void AUpdate()
     {
-        
+        HandlerPlayerInputs();
     }
 
     private void HandlerPlayerInputs()

@@ -1,15 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class SkillPanel : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+public class SkillPanel : MonoBehaviour
+{
+    [SerializeField] private Button _buttonPrefab;
 }

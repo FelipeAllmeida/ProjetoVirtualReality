@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     private InputManager _inputManager;
 
-	void AInitialize() 
+	public void AInitialize() 
     {
         InitializePlayer();
 	}

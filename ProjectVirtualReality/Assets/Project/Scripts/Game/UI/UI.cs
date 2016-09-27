@@ -7,8 +7,6 @@ public class UI : MonoBehaviour
 {
     public SkillPanel _skillPanel;
 
-    public Button buttonSummon;
-
 	void AInitialize () 
     {
         
