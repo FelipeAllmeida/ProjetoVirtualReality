@@ -13,6 +13,8 @@ public class SummonManager : MonoBehaviour
 
     private Dictionary<SummonsType, GameObject> _dictSummonsPrefab;
 
+    private SummonManager _summonManager;
+
     public void Initialize()
     {
         InitializeSummonsDictionary();
