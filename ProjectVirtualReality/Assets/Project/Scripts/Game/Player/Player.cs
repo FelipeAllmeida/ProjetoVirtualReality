@@ -3,13 +3,22 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
+    private CameraManager _cameraManager;
+
     private InputManager _inputManager;
     private PlayerSkills _playerSkills;
 
 	public void AInitialize() 
     {
+        InitializeCameraManager();
         InitializePlayer();
 	}
+
+    private void InitializeCameraManager()
+    {
+        _cameraManager = new CameraManager();
+        _cameraManager.AInitialize();
+    }
 
     private void InitializePlayer()
     {
@@ -20,6 +29,27 @@ public class Player : MonoBehaviour
     private void InitializeInputManager()
     {
         _inputManager = new InputManager();
+        ListenInputManagerEvents();
+    }
+
+    private void ListenInputManagerEvents()
+    {
+        _inputManager.onPressArrowLeft += delegate
+        {
+            _cameraManager.MoveCameraLeft();
+        };
+        _inputManager.onPressArrowRight += delegate
+        {
+            _cameraManager.MoveCameraRight();
+        };
+        _inputManager.onPressArrowUp += delegate
+        {
+            _cameraManager.MoveCameraUp();
+        };
+        _inputManager.onPressArrowDown += delegate
+        {
+            _cameraManager.MoveCameraDown();
+        };
     }
 
     private void InitializePlayerSkills()

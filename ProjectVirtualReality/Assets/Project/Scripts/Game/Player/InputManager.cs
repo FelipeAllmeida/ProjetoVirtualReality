@@ -8,6 +8,11 @@ public class InputManager : MonoBehaviour
     public Action<Vector3> onMouseLeftClick;
     public Action<Vector3> onMouseRightClick;
     public Action<Vector3> onMouseMiddleClick;
+
+    public event Action onPressArrowLeft;
+    public event Action onPressArrowRight;
+    public event Action onPressArrowUp;
+    public event Action onPressArrowDown;
     #endregion
     public void AInitialize()
     {
@@ -21,6 +26,23 @@ public class InputManager : MonoBehaviour
 
     private void HandlerPlayerInputs()
     {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (onPressArrowLeft != null) onPressArrowLeft();
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            if (onPressArrowRight != null) onPressArrowRight();
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            if (onPressArrowUp != null) onPressArrowUp();
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            if (onPressArrowDown != null) onPressArrowDown();
+        }  
+          
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 __mousePositionWorld = RaycastClickPositionToWorldPosition();
