@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{A0842F9F-9CEC-FE72-526E-360D30F5B1CD}") = "ProjectVirtualReality", "Assembly-CSharp.csproj", "{71BAD1DE-F324-A650-B0A1-D1A7907FC131}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71BAD1DE-F324-A650-B0A1-D1A7907FC131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BAD1DE-F324-A650-B0A1-D1A7907FC131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BAD1DE-F324-A650-B0A1-D1A7907FC131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BAD1DE-F324-A650-B0A1-D1A7907FC131}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
