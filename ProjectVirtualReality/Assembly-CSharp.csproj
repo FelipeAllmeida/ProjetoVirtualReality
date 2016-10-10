@@ -53,7 +53,9 @@
      <Compile Include="Assets\Project\Scripts\Game\Player\InputManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\Player.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\PlayerSkills.cs" />
-     <Compile Include="Assets\Project\Scripts\Game\Player\Skills\SummonManager.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\Player\Skills\Summons\Bullet.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\Player\Skills\Summons\SummonManager.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\Player\Skills\Summons\Turret.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\TankManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\TankPlayer.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\SkillPanel.cs" />

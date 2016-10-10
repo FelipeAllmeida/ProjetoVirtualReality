@@ -46,11 +46,12 @@ public class PlayerSkills : MonoBehaviour
     {
         if (_listEnabledSkills.Contains(p_skillType) == true)
         {
+            Vector3 __summonPosition = new Vector3(p_position.x, 1f, p_position.z);
             switch (p_skillType)
             {
                 case SkillType.SUMMON:
                     SummonManager.SummonsType p_summonType = (SummonManager.SummonsType)p_skillName;
-                    _summonManager.Summon(p_summonType, gameObject.transform, p_position, new Quaternion(0f, 0f, 0f, 0f));
+                    _summonManager.Summon(p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
                     break;
                 case SkillType.BLOCK:
                     break;

@@ -9,6 +9,8 @@ public class SummonManager : MonoBehaviour
         TURRET
     }
 
+    public float summonsLifeTime;
+
     [SerializeField] private GameObject _predfabTurret;
 
     private Dictionary<SummonsType, GameObject> _dictSummonsPrefab;
@@ -29,6 +31,7 @@ public class SummonManager : MonoBehaviour
 
     public void Summon(SummonsType p_summonType, Transform p_parent, Vector3 p_summonPosition, Quaternion p_quaternion)
     {
-        SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
+        GameObject __spawnedObject = SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
+
     }
 }
