@@ -60,8 +60,12 @@
      <Compile Include="Assets\Project\Scripts\Game\Player\TankPlayer.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\SkillPanel.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\UI.cs" />
+     <Compile Include="Assets\Project\Scripts\Utility\ButtonExit.cs" />
+     <Compile Include="Assets\Project\Scripts\Utility\ButtonScene.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\Spawner.cs" />
+     <Compile Include="Assets\Project\Scripts\Utility\TCPConnection.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\VRMouseLook.cs" />
+     <Compile Include="Assets\Project\Scripts\Utility\socketScript.cs" />
      <None Include="Assets\Project\LICENSE.txt" />
      <None Include="Assets\teste.txt" />
  <Reference Include="UnityEngine.UI">

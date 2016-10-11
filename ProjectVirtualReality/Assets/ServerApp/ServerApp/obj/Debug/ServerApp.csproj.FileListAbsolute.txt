@@ -1,0 +1,24 @@
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe.config
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.exe
+C:\Users\MPPLayer1\Game Dev\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.pdb
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe.config
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.exe
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.pdb
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.pdb
+C:\Users\Wilkdc-I\Desktop\Trab\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe.config
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.exe
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\Game Dev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe.config
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.exe
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe
+C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.pdb
