@@ -11,17 +11,29 @@ public class GameStateTank : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _prefabPlayer;
     [Header("User Interface")]
-    [SerializeField] private UI _userInterface;
+    [SerializeField] private UITank _userInterface;
     #endregion
 
     #region Private Data
     private TankPlayer _player;
     #endregion
 
+	public struct hudValues
+	{
+
+		public float reloadTime;
+		public float speed;
+		public float rotation;
+		public float turretRotation;
+		public float health;
+		public int ammo;
+
+	}
+
     private void Start () 
     {
         InitializePlayer();
-  //      InitializeUserInterface();
+        InitializeUserInterface();
 
     }
 
@@ -31,17 +43,24 @@ public class GameStateTank : MonoBehaviour
     {
         GameObject __playerGameObject = SpawnerManager.SpawnAt(_prefabPlayer, new Vector3(0f, 0f, 0f), _dynamic, new Quaternion(0f, 0f, 0f, 0f));
         _player = __playerGameObject.GetComponent<TankPlayer>();
-        _player.AInitialize();  
+     	_player.AInitialize();
+
     }
 
     private void InitializeUserInterface()
     {
         _userInterface.AInitialize();
+		_userInterface.mainCamera = _player.gameObject.GetComponentInChildren<Camera>();
+		_player.refreshReloadUI +=_userInterface.onHudUpdateValues;
+		_player.InitializeHudRefresher();
+		
     }
 
 	private void Update () 
     {
         _player.AUpdate();
-//        _userInterface.AUpdate();
+     
+		
+
 	}
 }

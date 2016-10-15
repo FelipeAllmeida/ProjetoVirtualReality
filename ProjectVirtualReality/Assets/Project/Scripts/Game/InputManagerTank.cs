@@ -9,13 +9,13 @@ public class InputManagerTank : MonoBehaviour
     public Action<Vector3> onMouseRightClick;
     public Action<Vector3> onMouseMiddleClick;
 
-	public event Action<float,float> onPressHorizontalAxis;
-    public event Action<float,float> onPressVerticalAxis;
+	public Action<Vector2> onPressHorizontalAxis;
+    public Action<Vector2> onPressVerticalAxis;
 
-	public event Action<float> onPressTurretRotate;
-	public event Action<float> onPressGunRotate;
+	public Action<float> onPressTurretRotate;
+	public Action<float> onPressGunRotate;
 	
-	public event Action onPressFire;
+	public Action onPressFire;
 
     #endregion
     public void AInitialize()
@@ -44,11 +44,11 @@ public class InputManagerTank : MonoBehaviour
         if (_xAxis!=0);
         {
 			         
-   			if (onPressHorizontalAxis != null) onPressHorizontalAxis(-_xAxis,_xAxis);
+			if (onPressHorizontalAxis != null) onPressHorizontalAxis(new Vector2(-_xAxis,_xAxis));
         }
         if (_zAxis != 0)
         {
-            if (onPressVerticalAxis != null) onPressVerticalAxis(_zAxis,_zAxis);
+            if (onPressVerticalAxis != null) onPressVerticalAxis(new Vector2(_zAxis,_zAxis));
         }
        
 

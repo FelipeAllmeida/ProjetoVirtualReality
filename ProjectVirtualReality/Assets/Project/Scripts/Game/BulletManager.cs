@@ -7,6 +7,8 @@ public class BulletManager : MonoBehaviour
 	public float damageCapacity;
 	private Rigidbody _myRigidbody;
 	private float _rotationSpeed;
+	private GameObject _bulletCam;
+	private float timerBullet;
 
 	public void AInitialize()
 	{
@@ -14,6 +16,10 @@ public class BulletManager : MonoBehaviour
 		_myRigidbody.centerOfMass = new Vector3(_myRigidbody.centerOfMass.x, _myRigidbody.centerOfMass.y, _myRigidbody.centerOfMass.z - 1);
 		_rotationSpeed = 6000;
 		_myRigidbody.AddRelativeForce(0,0,propellentPower);
+		_bulletCam = new GameObject();
+		Camera __cam =  _bulletCam.AddComponent<Camera>();
+		__cam.rect = new Rect(0.8f,0.7f,0.2f,0.3f);
+		timerBullet = 5;
 		
 
 	}	
@@ -23,19 +29,35 @@ public class BulletManager : MonoBehaviour
 		if (_myRigidbody != null)
 			_myRigidbody.transform.Rotate(0,0,_rotationSpeed*Time.deltaTime);
 
+		Vector3 relativePosition = new Vector3(0,0,-1);
+
+		if (_bulletCam != null)
+		{
+			_bulletCam.transform.position = transform.position + transform.TransformDirection(relativePosition);
+			_bulletCam.transform.position = _bulletCam.transform.position + new Vector3(0,1,0);
+		
+			_bulletCam.transform.LookAt(transform);
+
+		}
+		if (timerBullet > 0)
+			timerBullet -= Time.deltaTime;
+		else
+		{
+			setToDestroy();
+			Destroy(_bulletCam);
+		}
+
 	}
 	public void OnTriggerEnter(Collider other)
 	{
 
-		
+		Destroy(_bulletCam);
 		setToDestroy();
 		
 
 	}
 	public void setToDestroy()
 	{
-	
-
 
 		foreach(Collider tempCollider in 	transform.GetComponentsInChildren<Collider>())
 			tempCollider.enabled = false;
@@ -52,7 +74,7 @@ public class BulletManager : MonoBehaviour
 	}
 	public void DestroyBullet()
 	{
-
+		
 		Destroy(this.gameObject);
 
 	}

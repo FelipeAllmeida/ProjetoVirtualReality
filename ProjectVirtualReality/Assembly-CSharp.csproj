@@ -66,6 +66,7 @@
      <Compile Include="Assets\Project\Scripts\Utility\Spawner.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\TCPConnection.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\VRMouseLook.cs" />
+     <Compile Include="Assets\UITank.cs" />
      <None Include="Assets\Project\LICENSE.txt" />
      <None Include="Assets\teste.txt" />
  <Reference Include="UnityEngine.UI">

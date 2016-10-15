@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+
 
 public class TankPlayer : MonoBehaviour 
 {
@@ -14,10 +16,14 @@ public class TankPlayer : MonoBehaviour
 	public Transform _turret;
 	public Transform _gun;
 	public GameObject _ammunitionPrefab;
+
+	[SerializeField] private float reloadTime;
 	
+	public Action<GameStateTank.hudValues> refreshReloadUI;
 
 	public void AInitialize() 
     {
+	
         InitializeCameraManager();
         InitializePlayer();
 		
@@ -32,13 +38,21 @@ public class TankPlayer : MonoBehaviour
     private void InitializePlayer()
     {
 		InitializeTank();
-        InitializeInputManager();		
+        InitializeInputManager();	
+	
+	
   
     }
+	public void InitializeHudRefresher()
+	{
+		_tankManager.refreshReloadUI += refreshReloadUI;					
+
+	}
 	private void InitializeTank()
 	{
 		_tankManager = new TankManager();
-		_tankManager.AInitialize(_leftTrack, _rightTrack, transform.GetComponent<Rigidbody>(),_turret,_gun,_ammunitionPrefab);
+		_tankManager.AInitialize(_leftTrack, _rightTrack, transform.GetComponent<Rigidbody>(),_turret,_gun,_ammunitionPrefab,reloadTime);
+	
 
 	}
     private void InitializeInputManager()
@@ -46,30 +60,26 @@ public class TankPlayer : MonoBehaviour
         _inputManager = new InputManagerTank();
         ListenInputManagerEvents();
     }
-
-
     private void ListenInputManagerEvents()
     {
 		
-		_inputManager.onPressHorizontalAxis += _tankManager.ChangeTrackStats;     
-		_inputManager.onPressVerticalAxis += _tankManager.ChangeTrackStats;   
+		_inputManager.onPressHorizontalAxis += _tankManager.changeTracksState;     
+		_inputManager.onPressVerticalAxis += _tankManager.changeTracksState;   
        
-		_inputManager.onPressTurretRotate += _tankManager.RotateTurret;
-		_inputManager.onPressGunRotate += _tankManager.RotateGun;
+		_inputManager.onPressTurretRotate += _tankManager.rotateTurret;
+		_inputManager.onPressGunRotate += _tankManager.rotateGun;
 
-		_inputManager.onPressFire += delegate {
-			
-			_tankManager.ShootGun();
-
-		};
+		_inputManager.onPressFire += _tankManager.shootBullet;
 
     }
-
 
     public void AUpdate()
     {
     	_inputManager.AUpdate();
 		_tankManager.Aupdate();
+
+
+		
     }
 
    

@@ -8,6 +8,7 @@ public class VRMouseLook : MonoBehaviour {
 	public bool enableYaw = true;
 	public bool autoRecenterPitch = true;
 	public bool autoRecenterRoll = true;
+	public bool ignoreKeyRoll;
 	public KeyCode HorizontalAndVerticalKey = KeyCode.LeftAlt;
 	public KeyCode RollKey = KeyCode.LeftControl;
 
@@ -35,7 +36,7 @@ public class VRMouseLook : MonoBehaviour {
 	void Update () {
 		bool rolled = false;
 		bool pitched = false;
-		if (Input.GetKey(HorizontalAndVerticalKey)) {
+		if ((Input.GetKey(HorizontalAndVerticalKey)) || (ignoreKeyRoll)) {
 			pitched = true;
 			if (enableYaw) {
 				mouseX += Input.GetAxis("Mouse X") * 5;

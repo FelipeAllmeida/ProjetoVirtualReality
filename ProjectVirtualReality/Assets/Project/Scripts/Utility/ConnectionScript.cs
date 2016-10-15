@@ -13,12 +13,12 @@ public class ConnectionScript : MonoBehaviour {
 	
 	//variables
 	
-	public static ConnectionScript self;
+	public static ConnectionScript _self;
 	
-	private bool connected;
+	private bool _connected;
 	
-	public bool isReady;
-	public bool isServer;
+	private bool _isReady;
+	private bool _isServer;
 	
 	private TCPConnection myTCP;
 	
@@ -27,11 +27,12 @@ public class ConnectionScript : MonoBehaviour {
 	Process myProcess;
 
 	
-	void Awake() {
-		
-		if(isServer)
-		{
+	public void AInitialize(bool isServer) {
+		_isServer = isServer;
 
+		if(_isServer)
+		{
+			
 			myProcess = new Process();
 			myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
 			myProcess.StartInfo.CreateNoWindow = true;
@@ -72,8 +73,8 @@ public class ConnectionScript : MonoBehaviour {
 		}
 
 		//add a copy of TCPConnection to this game object
-		if (self == null)
-			self = this;
+		if (_self == null)
+			_self = this;
 		else
 			Destroy(this);
 		
@@ -84,7 +85,7 @@ public class ConnectionScript : MonoBehaviour {
 	
 
 	
-	void Update () {
+	public void AUpdate () {
 	
 		if (myTCP.socketReady == false) 
 		{

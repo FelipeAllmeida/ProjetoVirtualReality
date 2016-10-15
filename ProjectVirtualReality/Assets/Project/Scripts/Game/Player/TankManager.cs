@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TankManager : MonoBehaviour {
 	
@@ -11,16 +12,28 @@ public class TankManager : MonoBehaviour {
 	private float _bodyBlockingRotationBehind;
 	
 	private int _health;
+	private int _maxHealth;	
 
 	private Transform _gun;
 	private float _gunRotationSpeed;
 	private float _gunMaxRotUp;
 	private float _gunMaxRotDown;
+	private int _ammo;
 
 	private GameObject _ammunitionPrefab;
 
 	private Rigidbody _myRigidbody;
 	private float _engineForce;
+
+	private float _currentReloadTime;
+	[SerializeField]private float _reloadTime;
+
+	public Action shootBullet;
+	public Action<float> rotateTurret;
+	public Action<float> rotateGun;
+	public Action<Vector2> changeTracksState;
+
+	public Action<GameStateTank.hudValues> refreshReloadUI;
 
 	public enum EngineDistribution
 	{
@@ -33,7 +46,7 @@ public class TankManager : MonoBehaviour {
 	private EngineDistribution _rightTrackState;
 
 	
-	public void RotateTurret(float speed)
+	private void HandlerRotateTurret(float speed)
 	{
 		float tempGunRot = -_gun.localEulerAngles.x;
 		if (tempGunRot > 180)
@@ -53,7 +66,7 @@ public class TankManager : MonoBehaviour {
 		_turret.localEulerAngles = new Vector3(_turret.localEulerAngles.x,finalRot,_turret.localEulerAngles.z);
 
 	}
-	public void RotateGun(float speed)
+	private void HandlerRotateGun(float speed)
 	{
 		float tempTurRot = _turret.localEulerAngles.y;
 		if (tempTurRot > 180)
@@ -79,17 +92,29 @@ public class TankManager : MonoBehaviour {
 		_gun.localEulerAngles = new Vector3(-finalRot,_gun.localEulerAngles.y,_gun.localEulerAngles.z);
 
 	}
+	private void Reload()
+	{
+		if (_currentReloadTime > 0)
+			_currentReloadTime -=Time.deltaTime;
 
-	public void ShootGun()
+	}
+
+	private void HandlerShoot()
 	{
 	
-		BulletManager _tempBulletManager = (Instantiate(_ammunitionPrefab,_gun.transform.position+ _gun.transform.TransformVector(new Vector3(0,0,3.5f)) ,_gun.transform.rotation) as GameObject).GetComponent<BulletManager>();
-		_tempBulletManager.AInitialize();
+		if (_currentReloadTime <= 0)
+		{
+			BulletManager _tempBulletManager = (Instantiate(_ammunitionPrefab,_gun.transform.position+ _gun.transform.TransformVector(new Vector3(0,0,3.5f)) ,_gun.transform.rotation) as GameObject).GetComponent<BulletManager>();
+			_tempBulletManager.AInitialize();
+			_myRigidbody.AddForceAtPosition(_gun.transform.TransformVector(0,0,-_tempBulletManager.propellentPower),_gun.transform.position+ _gun.transform.TransformVector(new Vector3(0,0,3.5f)));
+			_currentReloadTime = _reloadTime;
+			_ammo --;
+		}
 		
 
 	}
 
-	public void AInitialize(Transform leftTrackPosition, Transform rightTrackPosition, Rigidbody myRigidBody, Transform turret, Transform gun, GameObject ammunitionPrefab) 
+	public void AInitialize(Transform leftTrackPosition, Transform rightTrackPosition, Rigidbody myRigidBody, Transform turret, Transform gun, GameObject ammunitionPrefab, float reloadTime) 
     {
 		_leftTrackPosition = leftTrackPosition;
 		_rightTrackPosition = rightTrackPosition;
@@ -100,7 +125,7 @@ public class TankManager : MonoBehaviour {
 		_myRigidbody.centerOfMass = new Vector3(_myRigidbody.centerOfMass.x, _myRigidbody.centerOfMass.y-1,_myRigidbody.centerOfMass.z);
 		
 		_turret = turret;
-		_turretRotationSpeed = 20;
+		_turretRotationSpeed = 40;
 		_bodyBlockingRotationBehind = 140;
 
 		_gun = gun;
@@ -110,24 +135,48 @@ public class TankManager : MonoBehaviour {
 
 		_ammunitionPrefab = ammunitionPrefab;
 
-		_health = 10;
-		
+		_health = 2;
+		_maxHealth = 10;
+
+		_ammo = 31;		
+
       	_engineForce = 15000;
 
+		_reloadTime = reloadTime;
+
+		shootBullet += HandlerShoot;
+		rotateTurret += HandlerRotateTurret;
+		rotateGun += HandlerRotateGun;
+		changeTracksState += HandlerChangeTrackStats;
+
 	}
-	public void ChangeTrackStats(float leftTrack, float rightTrack)
+	private void HandlerChangeTrackStats(Vector2 tracks)
 	{
 
-		_leftTrackState += Mathf.RoundToInt(leftTrack*2);
-		_rightTrackState += Mathf.RoundToInt(rightTrack*2);
+		_leftTrackState += Mathf.RoundToInt(tracks.x*2);
+		_rightTrackState += Mathf.RoundToInt(tracks.y*2);
 
 	}
 	public void Aupdate()
 	{
 		MoveLeftTracks(_leftTrackState);
 		MoveRightTracks(_rightTrackState);
-		_rightTrackState=0;
-		_leftTrackState=0;		
+		Reload();
+		UpdateHud();		
+
+	}
+	private void UpdateHud()
+	{
+		GameStateTank.hudValues __hudValues = new GameStateTank.hudValues();
+
+		__hudValues.reloadTime = 1-(_currentReloadTime / _reloadTime);
+		__hudValues.turretRotation = _turret.localEulerAngles.y;
+		__hudValues.rotation = _myRigidbody.transform.localEulerAngles.y;
+		__hudValues.health = (float)_health / _maxHealth ;
+		__hudValues.ammo = _ammo;
+		
+		if (refreshReloadUI != null);
+			refreshReloadUI(__hudValues);
 
 	}
 	private void MoveLeftTracks(EngineDistribution _distribution)
@@ -138,13 +187,15 @@ public class TankManager : MonoBehaviour {
 		Vector3 resultingPositionFront = _leftTrackPosition.transform.position + _leftTrackPosition.transform.TransformVector(new Vector3(-0.2f,0,3.5f));
 		Vector3 resultingPositionBack = _leftTrackPosition.transform.position + _leftTrackPosition.transform.TransformVector(new Vector3(-0.2f,0,-3.5f));
 
-		Quaternion rotation = Quaternion.Euler(0,15,0);
+		Quaternion rotation = Quaternion.Euler(0,8,0);
 		Vector3 resultingForceFront = rotation*resultingForce;
-		rotation = Quaternion.Euler(0,-15,0);
+		rotation = Quaternion.Euler(0,-8,0);
 		Vector3 resultingForceBack = rotation*resultingForce;
 		
 		_myRigidbody.AddForceAtPosition(resultingForceFront,resultingPositionFront);
 		_myRigidbody.AddForceAtPosition(resultingForceBack,resultingPositionBack);
+
+		_leftTrackState=0;	
 					
 	}
 	private void MoveRightTracks(EngineDistribution _distribution)
@@ -154,14 +205,15 @@ public class TankManager : MonoBehaviour {
 		Vector3 resultingPositionFront = _rightTrackPosition.transform.position + _rightTrackPosition.transform.TransformVector(new Vector3(0.2f,0,3.5f));
 		Vector3 resultingPositionBack = _rightTrackPosition.transform.position + _rightTrackPosition.transform.TransformVector(new Vector3(0.2f,0,-3.5f));
 
-		Quaternion rotation = Quaternion.Euler(0,-15,0);
+		Quaternion rotation = Quaternion.Euler(0,-8,0);
 		Vector3 resultingForceFront = rotation*resultingForce;
-		rotation = Quaternion.Euler(0,15,0);
+		rotation = Quaternion.Euler(0,8,0);
 		Vector3 resultingForceBack = rotation*resultingForce;
 
 		_myRigidbody.AddForceAtPosition(resultingForceFront,resultingPositionFront);
 		_myRigidbody.AddForceAtPosition(resultingForceBack,resultingPositionBack);
-				
+		
+		_rightTrackState=0;		
 	}
 	
 }

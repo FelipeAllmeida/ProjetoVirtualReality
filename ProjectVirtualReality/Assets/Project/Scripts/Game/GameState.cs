@@ -15,17 +15,25 @@ public class GameState : MonoBehaviour
 
     #region Private Data
     private Player _player;
+	private ConnectionScript _connectionScript;
     #endregion
 
     private void Start () 
     {
         InitializePlayer();
         InitializeUserInterface();
-
+		InitializeConnection();
         ListenUIEvents();
 
     }
+	private void InitializeConnection()
+	{
 
+		_connectionScript = transform.gameObject.AddComponent<ConnectionScript>();
+		_connectionScript.AInitialize(true);
+
+
+	}
     private void ListenUIEvents()
     {
         _userInterface.onClickPlayerSkillButton += delegate (PlayerSkills.SkillType p_skillType)
