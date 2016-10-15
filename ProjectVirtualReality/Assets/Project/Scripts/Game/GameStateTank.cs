@@ -16,6 +16,7 @@ public class GameStateTank : MonoBehaviour
 
     #region Private Data
     private TankPlayer _player;
+	private ConnectionScript _connectionScript;
     #endregion
 
 	public struct hudValues
@@ -34,10 +35,16 @@ public class GameStateTank : MonoBehaviour
     {
         InitializePlayer();
         InitializeUserInterface();
+		InitializeConnection();
 
-    }
+    }	
+	private void InitializeConnection()
+	{
 
+		_connectionScript = transform.gameObject.AddComponent<ConnectionScript>();
+		_connectionScript.AInitialize(false);
 
+	}
 
     private void InitializePlayer()
     {
@@ -59,7 +66,7 @@ public class GameStateTank : MonoBehaviour
 	private void Update () 
     {
         _player.AUpdate();
-     
+		_connectionScript.AUpdate("Sou o client");   
 		
 
 	}

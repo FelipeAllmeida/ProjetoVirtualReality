@@ -58,5 +58,6 @@ public class GameState : MonoBehaviour
     {
         _player.AUpdate();
         _userInterface.AUpdate();
+		_connectionScript.AUpdate("Sou o servidor");
 	}
 }

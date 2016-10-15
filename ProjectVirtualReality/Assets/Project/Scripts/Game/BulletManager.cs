@@ -29,7 +29,7 @@ public class BulletManager : MonoBehaviour
 		if (_myRigidbody != null)
 			_myRigidbody.transform.Rotate(0,0,_rotationSpeed*Time.deltaTime);
 
-		Vector3 relativePosition = new Vector3(0,0,-1);
+		Vector3 relativePosition = new Vector3(0,0,-1.5f);
 
 		if (_bulletCam != null)
 		{

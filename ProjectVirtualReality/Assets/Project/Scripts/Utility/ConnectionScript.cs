@@ -85,7 +85,7 @@ public class ConnectionScript : MonoBehaviour {
 	
 
 	
-	public void AUpdate () {
+	public void AUpdate (String p_message) {
 	
 		if (myTCP.socketReady == false) 
 		{
@@ -96,13 +96,14 @@ public class ConnectionScript : MonoBehaviour {
 		else
 		{
 		//keep checking the server for messages, if a message is received from server, it gets logged in the Debug console (see function below)
+		SendMessage(p_message);
 		SocketResponse ();
 		}
 			
 	}
-	public void SendMessage()
+	public void SendMessage(String p_message)
 	{
-		SendToServer("Teste "+ System.DateTime.Now);
+		SendToServer(p_message +" "+ System.DateTime.Now);
 	
 	}
 	
