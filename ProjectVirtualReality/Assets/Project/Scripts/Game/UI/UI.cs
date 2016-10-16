@@ -34,6 +34,6 @@ public class UI : MonoBehaviour
 	
 	public void AUpdate () 
     {
-	    
+        _skillPanel.AUpdate();
 	}
 }
