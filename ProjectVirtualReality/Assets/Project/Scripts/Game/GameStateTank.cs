@@ -115,18 +115,31 @@ _foreignDataPackets = new List<DataPacketServer>();
 			char[] __delimiterForInfo = { '|'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
 			
-			Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);			
+			GameObject __go = findInList(__infoString[0]);
+			if (__go == null)
+			{
+			//	Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);	
+				__go = Instantiate(prefabsForeignObjects[__infoString[1]]);
+				__go.transform.position = __infoString[3];
+				__go.transform.eulerAngles = __infoString[4];
+			}
+			else
+			{
+				__go.transform.position = __infoString[3];
+				__go.transform.eulerAngles = __infoString[4];				
+
+			}	
 
 
 		}
 
 	}
-	private bool findInList (int serial)
+	private GameObject findInList (int serial)
 	{
-		bool result = false;
+		GameObject result = null;
 		foreach(DataPacketServer _dataPacket in _foreignDataPackets)	
 			if (_dataPacket.serial == serial)
-				result = true;
+				result = _dataPacket.gameObject;
 
 		return result;
 

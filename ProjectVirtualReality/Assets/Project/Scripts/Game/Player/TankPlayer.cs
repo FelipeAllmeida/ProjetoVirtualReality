@@ -49,7 +49,6 @@ public class TankPlayer : MonoBehaviour
 	{
 		_tankManager = new TankManager();
 		_tankManager.AInitialize(_leftTrack, _rightTrack, transform.GetComponent<Rigidbody>(),_turret,_gun,_ammunitionPrefab,reloadTime);
-	
 
 	}
     private void InitializeInputManager()
