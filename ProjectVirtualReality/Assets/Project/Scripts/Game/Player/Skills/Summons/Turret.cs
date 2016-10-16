@@ -19,7 +19,7 @@ public class Turret : MonoBehaviour
 
     [SerializeField] private StateType _currentState;
 
-    private float _fireRate = 1f;
+    private float _fireRate = 3f;
     private Coroutine _shootingCoroutine;
     #endregion
 
@@ -49,8 +49,9 @@ public class Turret : MonoBehaviour
     {
         while (_currentState == StateType.SHOOTING)
         {
-            GameObject __bulletInstance = SpawnerManager.SpawnAt(_bulletPrefab, transform.position + transform.forward, transform, transform.rotation);
-            __bulletInstance.GetComponent<Bullet>().Ainitialize();
+            Vector3 __bulletSpawnPosition = new Vector3(transform.position.x, 3.5f, transform.position.z);
+            GameObject __bulletInstance = SpawnerManager.SpawnAt(_bulletPrefab, __bulletSpawnPosition + transform.forward, null, transform.rotation);
+            __bulletInstance.GetComponent<BulletManager>().AInitialize();
             yield return new WaitForSeconds(_fireRate);        
         }
     }
