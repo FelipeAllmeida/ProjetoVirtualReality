@@ -12,6 +12,10 @@ public class GameStateTank : MonoBehaviour
     [SerializeField] private GameObject _prefabPlayer;
     [Header("User Interface")]
     [SerializeField] private UITank _userInterface;
+	[Header("Connection")]
+	[SerializeField] private bool connect;
+	[SerializeField] private string _ip;
+	[SerializeField] private int _port;
     #endregion
 
     #region Private Data
@@ -35,14 +39,15 @@ public class GameStateTank : MonoBehaviour
     {
         InitializePlayer();
         InitializeUserInterface();
-		InitializeConnection();
+		if (connect)
+			InitializeConnection();
 
     }	
 	private void InitializeConnection()
 	{
 
 		_connectionScript = transform.gameObject.AddComponent<ConnectionScript>();
-		_connectionScript.AInitialize(false);
+		_connectionScript.AInitialize(false,_ip,_port);
 
 	}
 
@@ -66,7 +71,8 @@ public class GameStateTank : MonoBehaviour
 	private void Update () 
     {
         _player.AUpdate();
-		_connectionScript.AUpdate("Sou o client");   
+		if (connect)
+			_connectionScript.AUpdate("Sou o client");   
 		
 
 	}

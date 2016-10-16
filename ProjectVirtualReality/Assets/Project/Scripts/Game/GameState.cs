@@ -11,6 +11,10 @@ public class GameState : MonoBehaviour
     [SerializeField] private GameObject _prefabPlayer;
     [Header("User Interface")]
     [SerializeField] private UI _userInterface;
+	[Header("Connection")]
+	[SerializeField] private bool connect;
+	[SerializeField] private string _ip;
+	[SerializeField] private int _port;
     #endregion
 
     #region Private Data
@@ -22,7 +26,8 @@ public class GameState : MonoBehaviour
     {
         InitializePlayer();
         InitializeUserInterface();
-		InitializeConnection();
+		if (connect)
+			InitializeConnection();
         ListenUIEvents();
 
     }
@@ -30,7 +35,7 @@ public class GameState : MonoBehaviour
 	{
 
 		_connectionScript = transform.gameObject.AddComponent<ConnectionScript>();
-		_connectionScript.AInitialize(true);
+		_connectionScript.AInitialize(true,_ip,_port);
 
 
 	}
@@ -58,6 +63,7 @@ public class GameState : MonoBehaviour
     {
         _player.AUpdate();
         _userInterface.AUpdate();
-		_connectionScript.AUpdate("Sou o servidor");
+		if (connect)
+			_connectionScript.AUpdate("Sou o servidor");
 	}
 }

@@ -26,10 +26,14 @@ public class ConnectionScript : MonoBehaviour {
 	private string msgReceived;
 	Process myProcess;
 
-	
-	public void AInitialize(bool isServer) {
-		_isServer = isServer;
+	private string _host;
+	private int _port;
 
+	
+	public void AInitialize(bool isServer, string host, int port) {
+		_isServer = isServer;
+		_host = host;
+		_port = port;
 		if(_isServer)
 		{
 			
@@ -90,7 +94,7 @@ public class ConnectionScript : MonoBehaviour {
 		if (myTCP.socketReady == false) 
 		{
 			
-			myTCP.setupSocket();
+			myTCP.setupSocket(_host,_port);
 			
 		}
 		else

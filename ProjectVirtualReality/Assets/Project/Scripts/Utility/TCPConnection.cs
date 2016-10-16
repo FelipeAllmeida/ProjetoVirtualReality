@@ -9,8 +9,6 @@ public class TCPConnection : MonoBehaviour {
 	//the name of the connection, not required but better for overview if you have more than 1 connections running
 	public string conName = "Localhost";
 	
-	//ip/address of the server, 127.0.0.1 is for your own computer
-	public string conHost = "192.168.15.4";
 	
 	//port for the server, make sure to unblock this in your router firewall if you want to allow external connections
 	public int conPort = 123;
@@ -22,11 +20,18 @@ public class TCPConnection : MonoBehaviour {
 	NetworkStream theStream;
 	StreamWriter theWriter;
 	StreamReader theReader;
+
+	private string _host;
+	private int _port;
 	
 	//try to initiate connection
-	public void setupSocket() {
+	public void setupSocket(string host, int port) {
+	
+		_host = host;
+		_port = port;
+
 		try {
-			mySocket = new TcpClient(conHost, conPort);
+			mySocket = new TcpClient(_host, _port);
 			theStream = mySocket.GetStream();
 			theWriter = new StreamWriter(theStream);
 			theReader = new StreamReader(theStream);
@@ -77,7 +82,7 @@ public class TCPConnection : MonoBehaviour {
 	//keep connection alive, reconnect if connection lost
 	public void maintainConnection(){
 		if(!theStream.CanRead) {
-			setupSocket();
+			setupSocket(_host, _port);
 		}
 	}
 	

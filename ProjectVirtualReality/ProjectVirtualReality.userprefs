@@ -1,16 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Project\Scripts\Game\GameState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Project\Scripts\Game\GameStateTank.cs">
     <Files>
       <File FileName="Assets\Project\Scripts\Game\Player\TankPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Scripts\Game\Player\TankManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Scripts\Game\InputManagerTank.cs" Line="1" Column="1" />
       <File FileName="Assets\UITank.cs" Line="1" Column="1" />
-      <File FileName="Assets\Project\Scripts\Game\GameStateTank.cs" Line="45" Column="40" />
+      <File FileName="Assets\Project\Scripts\Game\GameStateTank.cs" Line="74" Column="1" />
       <File FileName="Assets\Project\Scripts\Utility\VRMouseLook.cs" Line="1" Column="1" />
       <File FileName="Assets\Project\Scripts\Game\BulletManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Project\Scripts\Utility\ConnectionScript.cs" Line="107" Column="2" />
-      <File FileName="Assets\Project\Scripts\Game\GameState.cs" Line="40" Column="10" />
+      <File FileName="Assets\Project\Scripts\Utility\ConnectionScript.cs" Line="97" Column="33" />
+      <File FileName="Assets\Project\Scripts\Game\GameState.cs" Line="67" Column="4" />
+      <File FileName="Assets\Project\Scripts\Utility\TCPConnection.cs" Line="85" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
