@@ -6,11 +6,8 @@ using System;
 public class TankPlayer : MonoBehaviour 
 {
     private CameraManager _cameraManager;
-
 	private TankManager _tankManager;
-
     private InputManagerTank _inputManager;
-
 	public Transform _leftTrack;
 	public Transform _rightTrack;
 	public Transform _turret;
@@ -24,6 +21,7 @@ public class TankPlayer : MonoBehaviour
 	public void AInitialize() 
     {
 	
+
         InitializeCameraManager();
         InitializePlayer();
 		
@@ -39,10 +37,9 @@ public class TankPlayer : MonoBehaviour
     {
 		InitializeTank();
         InitializeInputManager();	
-	
-	
   
     }
+	
 	public void InitializeHudRefresher()
 	{
 		_tankManager.refreshReloadUI += refreshReloadUI;					

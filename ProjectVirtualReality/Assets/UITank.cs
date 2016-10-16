@@ -63,7 +63,5 @@ public class UITank : MonoBehaviour {
 			_currentAmmo = value.ammo;
 		}
 		
-		
-		Debug.Log(mainCamera.transform.localRotation.y);
 	}
 }

@@ -20,7 +20,7 @@ namespace serverApp
                 // Porta 13000
                 Int32 port = 123;
                 //IP local
-                IPAddress localAddr = IPAddress.Parse("192.168.15.4");
+                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
                 // cria o server
                 server = new TcpListener(localAddr, port);
@@ -52,13 +52,13 @@ namespace serverApp
 
                         counter++;
                     }
-                  
+                    Console.Write("conectados");
 
 
                     while (clients.Count == 2)
                     {
                         data = null;
-                        Console.Write("conectados");
+                      
 
                         for (int ci = 0; ci < clients.Count; ci++)
                         {

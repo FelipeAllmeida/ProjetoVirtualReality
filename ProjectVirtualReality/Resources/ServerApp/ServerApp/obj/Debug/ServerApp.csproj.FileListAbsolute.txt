@@ -22,3 +22,9 @@ C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug
 C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
 C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.exe
 C:\Users\MPPLayer1\GameDev\Trab\WarLightningServer\ServerApp\ServerApp\bin\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\bin\Debug\ServerApp.exe.config
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\obj\Debug\ServerApp.exe
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\obj\Debug\ServerApp.pdb
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\bin\Debug\ServerApp.exe
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\obj\Debug\ServerApp.csprojResolveAssemblyReference.cache
+C:\Users\MPPLayer1\GameDev\TrabFelipe\ProjectVirtualReality\Resources\ServerApp\ServerApp\bin\Debug\ServerApp.pdb

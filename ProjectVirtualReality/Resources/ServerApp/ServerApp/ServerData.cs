@@ -7,6 +7,8 @@ using System.Globalization;
 
 namespace ServerApp
 {
+    
+
     public class ServerData
     {
 
@@ -21,27 +23,14 @@ namespace ServerApp
 
         }
 
-        public void receiveData(int client, string p_s) //separar leitura arquivo obj
-        {
-
-            //delimitadores
-            char[] delimiters = { '(',',',')' };
-            string tempStr = "";
-
-            string[] words = p_s.Split(delimiters);
-
-            //aqui só inverte a ordem das palvras que recebeu
-            for (int i = words.Length -1; i >= 0; i-- )
-            {
-                tempStr = tempStr + words[i] + ",";
-
-            }
+        public void receiveData(int client, string p_s) 
+        {          
 
             //armazena o último dado recebido
             if (client == 0)
-                responsesC1 = tempStr;
+                responsesC1 = p_s;
             else
-                responsesC0 = tempStr;
+                responsesC0 = p_s;
 
         }
         public string sendData(int client) //separar leitura arquivo obj

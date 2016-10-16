@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameState : MonoBehaviour 
 {
@@ -20,10 +21,17 @@ public class GameState : MonoBehaviour
     #region Private Data
     private Player _player;
 	private ConnectionScript _connectionScript;
+	private List<DataPacketServer> _dataPackets;
+	private List<DataPacketServer> _foreignDataPackets;
+	[SerializeField]private GameObject[] prefabsForeignObjects;
+	private int serialData;
     #endregion
 
     private void Start () 
     {
+		_dataPackets = new List<DataPacketServer>();	
+_foreignDataPackets = new List<DataPacketServer>();	
+		serialData = 0;
         InitializePlayer();
         InitializeUserInterface();
 		if (connect)
@@ -58,12 +66,68 @@ public class GameState : MonoBehaviour
     {
         _userInterface.AInitialize();
     }
+	private void GenerateObjects(string p_receivedData)
+	{
+		
+			
+
+	}
 
 	private void Update () 
     {
         _player.AUpdate();
         _userInterface.AUpdate();
+		DataExchange();
+	}
+	private void generateObjects(string p_receivedData)
+	{
+
+		char[] delimitersForObjects = { '/'};
+		string[] objStrings = p_receivedData.Split(delimitersForObjects);
+		
+		for (int i=1; i< objStrings.Length; i++)
+		{
+			char[] __delimiterForInfo = { '|'};
+			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
+			
+			Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);			
+		
+
+
+		}
+
+	}
+	private bool findInList (int serial)
+	{
+		bool result = false;
+		foreach(DataPacketServer _dataPacket in _foreignDataPackets)	
+			if (_dataPacket.serial == serial)
+				result = true;
+
+		return result;
+
+	}
+	private void DataExchange()
+	{
+		string streamString = "";
+		streamString += _dataPackets.Count;
+		foreach (DataPacketServer __dataPacket in _dataPackets)
+		{
+			
+			streamString= streamString +"/"+__dataPacket.returnData();			
+
+		}
+		string __receivedData = "";
 		if (connect)
-			_connectionScript.AUpdate("Sou o servidor");
+		{
+			__receivedData = _connectionScript.AUpdate(streamString);   
+			Debug.Log(__receivedData);
+			if (__receivedData != "-1")
+				 generateObjects(__receivedData);
+		}
+
+
+		
+
 	}
 }

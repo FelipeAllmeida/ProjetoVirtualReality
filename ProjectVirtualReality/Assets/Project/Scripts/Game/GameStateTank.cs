@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameStateTank : MonoBehaviour 
 {
@@ -16,11 +17,15 @@ public class GameStateTank : MonoBehaviour
 	[SerializeField] private bool connect;
 	[SerializeField] private string _ip;
 	[SerializeField] private int _port;
+	[SerializeField]private GameObject[] prefabsForeignObjects;
     #endregion
 
     #region Private Data
     private TankPlayer _player;
 	private ConnectionScript _connectionScript;
+	private List<DataPacketServer> _dataPackets;
+	private List<DataPacketServer> _foreignDataPackets;
+	private int serialData;
     #endregion
 
 	public struct hudValues
@@ -37,6 +42,9 @@ public class GameStateTank : MonoBehaviour
 
     private void Start () 
     {
+		_dataPackets = new List<DataPacketServer>();	
+_foreignDataPackets = new List<DataPacketServer>();	
+		serialData = 0;
         InitializePlayer();
         InitializeUserInterface();
 		if (connect)
@@ -55,6 +63,27 @@ public class GameStateTank : MonoBehaviour
     {
         GameObject __playerGameObject = SpawnerManager.SpawnAt(_prefabPlayer, new Vector3(0f, 0f, 0f), _dynamic, new Quaternion(0f, 0f, 0f, 0f));
         _player = __playerGameObject.GetComponent<TankPlayer>();
+
+
+		DataPacketServer __dataPacketTank = (__playerGameObject.AddComponent<DataPacketServer>());
+		__dataPacketTank.serial = serialData;
+		__dataPacketTank.type = 0;
+		serialData++;
+
+		GameObject __turretGO = __playerGameObject.GetComponent<TankPlayer>()._turret.gameObject;
+		DataPacketServer __dataPacketTurret = (__turretGO.AddComponent<DataPacketServer>());
+		__dataPacketTurret.serial = serialData;
+		__dataPacketTurret.type = 1;
+		serialData++;
+
+		GameObject __gunGO = __playerGameObject.GetComponent<TankPlayer>()._gun.gameObject;
+		DataPacketServer __dataPacketGun = (__gunGO.AddComponent<DataPacketServer>());
+		__dataPacketGun.serial = serialData;
+		__dataPacketGun.type = 2;
+		serialData++;
+
+
+		_dataPackets.Add(__dataPacketTank);
      	_player.AInitialize();
 
     }
@@ -71,8 +100,57 @@ public class GameStateTank : MonoBehaviour
 	private void Update () 
     {
         _player.AUpdate();
+		DataExchange();		
+		
+
+	}
+	private void generateObjects(string p_receivedData)
+	{
+
+		char[] delimitersForObjects = { '/'};
+		string[] objStrings = p_receivedData.Split(delimitersForObjects);
+		
+		for (int i=1; i< objStrings.Length; i++)
+		{
+			char[] __delimiterForInfo = { '|'};
+			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
+			
+			Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);			
+
+
+		}
+
+	}
+	private bool findInList (int serial)
+	{
+		bool result = false;
+		foreach(DataPacketServer _dataPacket in _foreignDataPackets)	
+			if (_dataPacket.serial == serial)
+				result = true;
+
+		return result;
+
+	}
+	private void DataExchange()
+	{
+		string streamString = "";
+		streamString += _dataPackets.Count;
+		foreach (DataPacketServer __dataPacket in _dataPackets)
+		{
+			
+			streamString= streamString +"/"+__dataPacket.returnData();			
+
+		}
+		string __receivedData = "";
 		if (connect)
-			_connectionScript.AUpdate("Sou o client");   
+		{
+			__receivedData = _connectionScript.AUpdate(streamString);   
+		
+			if (__receivedData != "-1")
+				 generateObjects(__receivedData);
+		}
+
+
 		
 
 	}

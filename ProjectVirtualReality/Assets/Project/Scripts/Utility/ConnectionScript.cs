@@ -39,17 +39,14 @@ public class ConnectionScript : MonoBehaviour {
 			
 			myProcess = new Process();
 			myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-			myProcess.StartInfo.CreateNoWindow = true;
+			myProcess.StartInfo.CreateNoWindow = false;
 			myProcess.StartInfo.UseShellExecute = false;
 			String[] tempString = Application.dataPath.Split('/');
 			String FullPath= "";
 			for (int i=0; i<tempString.Length; i++)
 			{
 				if (tempString[i] != "Assets")
-					FullPath = FullPath +tempString[i]+ "/";
-				else
-					UnityEngine.Debug.Log("?");
-				
+					FullPath = FullPath +tempString[i]+ "/";				
 			
 			}
 			myProcess.StartInfo.FileName = FullPath + "Resources/ServerApp/ServerApp/bin/Debug/ServerApp.exe";
@@ -89,41 +86,37 @@ public class ConnectionScript : MonoBehaviour {
 	
 
 	
-	public void AUpdate (String p_message) {
+	public string AUpdate (String p_message) {
 	
 		if (myTCP.socketReady == false) 
 		{
 			
 			myTCP.setupSocket(_host,_port);
+			return "-1";
 			
 		}
 		else
 		{
 		//keep checking the server for messages, if a message is received from server, it gets logged in the Debug console (see function below)
 		SendMessage(p_message);
-		SocketResponse ();
+		return SocketResponse ();
 		}
 			
 	}
 	public void SendMessage(String p_message)
 	{
-		SendToServer(p_message +" "+ System.DateTime.Now);
+		SendToServer(p_message);
 	
 	}
 	
 	
 	//socket reading script
 	
-	void SocketResponse() {
+	string SocketResponse() {
 		
 		string serverSays = myTCP.readSocket();
-			
-		if (serverSays != "") {
-
-			handleRequest(serverSays);
-	
-		}
-		
+		UnityEngine.Debug.Log("Server respondeu " + serverSays);
+		return handleRequest(serverSays);		
 		
 		
 	}
@@ -143,10 +136,10 @@ public class ConnectionScript : MonoBehaviour {
         }
         return response;
     }
-	public void handleRequest(string p_s) //separar leitura arquivo obj
+	public string handleRequest(string p_s) //separar leitura arquivo obj
 	{
 		
-		char[] delimiters = { '(','/',')',' ',',' };
+	/*	char[] delimiters = { '(','/',')',' ',',' };
 		List<string> tempStr = new List<string>();
 		UnityEngine.Debug.Log("received" + p_s);
 		string[] words = p_s.Split(delimiters);
@@ -155,7 +148,9 @@ public class ConnectionScript : MonoBehaviour {
 		{
 			UnityEngine.Debug.Log(words[i]);			
 
-		}
+		}*/
+
+		return p_s;
 		
 	}
 	
@@ -163,7 +158,6 @@ public class ConnectionScript : MonoBehaviour {
 	{
 		
 		myTCP.writeSocket(str);
-		UnityEngine.Debug.Log("sent" + str);
 
 	}
 	
