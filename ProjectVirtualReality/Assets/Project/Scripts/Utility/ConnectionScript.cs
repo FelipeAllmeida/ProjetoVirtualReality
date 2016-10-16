@@ -115,7 +115,6 @@ public class ConnectionScript : MonoBehaviour {
 	string SocketResponse() {
 		
 		string serverSays = myTCP.readSocket();
-		UnityEngine.Debug.Log("Server respondeu " + serverSays);
 		return handleRequest(serverSays);		
 		
 		

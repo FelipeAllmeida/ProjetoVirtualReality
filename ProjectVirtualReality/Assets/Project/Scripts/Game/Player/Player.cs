@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour 
 {
@@ -7,6 +8,13 @@ public class Player : MonoBehaviour
 
     private InputManager _inputManager;
     private PlayerSkills _playerSkills;
+
+	public List<DataPacketServer> getListOfPackets()
+	{
+
+		return _playerSkills.getListOfPackets();
+
+	}
 
 	public void AInitialize() 
     {
@@ -64,17 +72,17 @@ public class Player : MonoBehaviour
        _inputManager.AUpdate();
     }
 
-    public void HandleSkillClick(PlayerSkills.SkillType p_skillType)
+    public void HandleSkillClick(int p_serialData, PlayerSkills.SkillType p_skillType)
     {
         _inputManager.onMouseLeftClick += delegate (Vector3 p_clickPosition)
         {
-            HandleUseSummonSkill(p_skillType, p_clickPosition);
+            HandleUseSummonSkill(p_serialData, p_skillType, p_clickPosition);
         };
     }
 
-    private void HandleUseSummonSkill(PlayerSkills.SkillType p_skillType, Vector3 p_targetPosition)
+    private void HandleUseSummonSkill(int p_serialData, PlayerSkills.SkillType p_skillType, Vector3 p_targetPosition)
     {
         _inputManager.onMouseLeftClick = null;
-        _playerSkills.UseSkill(p_skillType, SummonManager.SummonsType.TURRET, p_targetPosition);
+        _playerSkills.UseSkill(p_serialData, p_skillType, SummonManager.SummonsType.TURRET, p_targetPosition);
     }
 }

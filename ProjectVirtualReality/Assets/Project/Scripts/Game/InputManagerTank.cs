@@ -69,7 +69,7 @@ public class InputManagerTank : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 __mousePositionWorld = RaycastClickPositionToWorldPosition();
-            Debug.Log(__mousePositionWorld);
+ 
             if (onMouseLeftClick != null) onMouseLeftClick(__mousePositionWorld);
         }
         if (Input.GetMouseButtonDown(1))

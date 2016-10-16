@@ -29,9 +29,13 @@ public class SummonManager : MonoBehaviour
         _dictSummonsPrefab.Add(SummonsType.TURRET, _predfabTurret);
     }
 
-    public void Summon(SummonsType p_summonType, Transform p_parent, Vector3 p_summonPosition, Quaternion p_quaternion)
+    public DataPacketServer Summon(int p_serial, SummonsType p_summonType, Transform p_parent, Vector3 p_summonPosition, Quaternion p_quaternion)
     {
         GameObject __spawnedObject = SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
+		DataPacketServer __dataPacket = __spawnedObject.AddComponent<DataPacketServer>();
+		__dataPacket.serial = p_serial;
+		
+		return __dataPacket;
 
     }
 }

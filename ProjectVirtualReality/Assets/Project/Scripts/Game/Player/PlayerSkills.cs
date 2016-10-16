@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class PlayerSkills : MonoBehaviour 
 {
+	private List<DataPacketServer> _dataPackets;
+
+	
+	public List<DataPacketServer> getListOfPackets()
+	{
+
+		return _dataPackets;
+
+	}
+
     public enum SkillType
     {
         SUMMON,
@@ -17,6 +27,7 @@ public class PlayerSkills : MonoBehaviour
     {
         InitializeEnableSkills();
         InitializeSkillsManager();
+		_dataPackets = new List<DataPacketServer>();
     }
 
     private void InitializeSkillsManager()
@@ -42,8 +53,9 @@ public class PlayerSkills : MonoBehaviour
         _listEnabledSkills.Add(p_skill);
     }
 
-    public void UseSkill(SkillType p_skillType, object p_skillName, Vector3 p_position)
+    public void UseSkill(int p_serial,SkillType p_skillType, object p_skillName, Vector3 p_position)
     {
+		
         if (_listEnabledSkills.Contains(p_skillType) == true)
         {
             Vector3 __summonPosition = new Vector3(p_position.x, 1f, p_position.z);
@@ -51,7 +63,9 @@ public class PlayerSkills : MonoBehaviour
             {
                 case SkillType.SUMMON:
                     SummonManager.SummonsType p_summonType = (SummonManager.SummonsType)p_skillName;
-                    _summonManager.Summon(p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
+					DataPacketServer __GO = _summonManager.Summon(p_serial,p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
+					_dataPackets.Add(__GO);
+					
                     break;
                 case SkillType.BLOCK:
                     break;

@@ -51,7 +51,8 @@ _foreignDataPackets = new List<DataPacketServer>();
     {
         _userInterface.onClickPlayerSkillButton += delegate (PlayerSkills.SkillType p_skillType)
         {
-            _player.HandleSkillClick(p_skillType);
+            _player.HandleSkillClick(serialData, p_skillType);
+			serialData++;
         };
     }
 
@@ -77,6 +78,7 @@ _foreignDataPackets = new List<DataPacketServer>();
     {
         _player.AUpdate();
         _userInterface.AUpdate();
+		_dataPackets =  _player.getListOfPackets();
 		DataExchange();
 	}
 	private void generateObjects(string p_receivedData)
@@ -90,9 +92,7 @@ _foreignDataPackets = new List<DataPacketServer>();
 			char[] __delimiterForInfo = { '|'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
 			
-			Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);			
-		
-
+			Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);		
 
 		}
 
@@ -121,7 +121,6 @@ _foreignDataPackets = new List<DataPacketServer>();
 		if (connect)
 		{
 			__receivedData = _connectionScript.AUpdate(streamString);   
-			Debug.Log(__receivedData);
 			if (__receivedData != "-1")
 				 generateObjects(__receivedData);
 		}
