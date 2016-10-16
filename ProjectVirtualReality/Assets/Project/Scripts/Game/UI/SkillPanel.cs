@@ -10,9 +10,9 @@ public class SkillPanel : MonoBehaviour
     #endregion    
 
     [Header("Button Prefabs")]
-    [SerializeField] private Button _buttonSummonPrefab;
-    [SerializeField] private Button _buttonBlockPrefab;
-    [SerializeField] private Button _buttonTrapPrefab;
+    [SerializeField] private ButtonManager _buttonSummonPrefab;
+    [SerializeField] private ButtonManager _buttonBlockPrefab;
+    [SerializeField] private ButtonManager _buttonTrapPrefab;
 
     public void AInitialize()
     {
@@ -21,9 +21,17 @@ public class SkillPanel : MonoBehaviour
 
     private void InitializeButtons()
     {
-        _buttonSummonPrefab.onClick.AddListener(delegate
+        _buttonSummonPrefab.InitializeButton();
+        _buttonSummonPrefab.onClickPlayerSkillButton += delegate (PlayerSkills.SkillType p_skillType)
         {
-            if (onClickPlayerSkillButton != null) onClickPlayerSkillButton(PlayerSkills.SkillType.SUMMON);
-        });
+            if (onClickPlayerSkillButton != null)
+                onClickPlayerSkillButton(p_skillType);
+        };
+
+    }
+
+    public void AUpdate()
+    {
+        _buttonSummonPrefab.AUpdate();
     }
 }
