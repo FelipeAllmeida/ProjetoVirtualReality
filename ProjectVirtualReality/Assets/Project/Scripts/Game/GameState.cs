@@ -31,8 +31,9 @@ public class GameState : MonoBehaviour
     private void Start () 
     {
 		_dataPackets = new List<DataPacketServer>();	
-_foreignDataPackets = new List<DataPacketServer>();	
+		_foreignDataPackets = new List<DataPacketServer>();	
 		serialData = 0;
+		
         InitializePlayer();
         InitializeUserInterface();
 		if (connect)
@@ -61,34 +62,51 @@ _foreignDataPackets = new List<DataPacketServer>();
     {
         GameObject __playerGameObject = SpawnerManager.SpawnAt(_prefabPlayer, new Vector3(0f, 0f, 0f), _dynamic, new Quaternion(0f, 0f, 0f, 0f));
         _player = __playerGameObject.GetComponent<Player>();
+		_player.onDestroy += DestroyObject;
+		_player.onCreate += CreateObject;
         _player.AInitialize();  
+
     }
 
     private void InitializeUserInterface()
     {
         _userInterface.AInitialize();
     }
+	private void DestroyObject(DataPacketServer p_DP)
+	{
 
+		_dataPackets.Remove(p_DP);
+		Destroy(p_DP.gameObject);		
+
+	}
+	private void CreateObject(DataPacketServer p_DP)
+	{
+
+		p_DP.serial = serialData;
+		serialData++;
+		_dataPackets.Add(p_DP);
+
+	}
 	private void Update () 
     {
         _player.AUpdate();
         _userInterface.AUpdate();
-		_dataPackets =  _player.getListOfPackets();
 		DataExchange();
 	}
 	private void GenerateObjects(string p_receivedData)
 	{
-
-
+		List<int> __listOfSerials = new List<int>();
 
 		char[] delimitersForObjects = { '/'};
 		string[] objStrings = p_receivedData.Split(delimitersForObjects);
 		
 		for (int i=1; i< objStrings.Length; i++)
 		{
-			char[] __delimiterForInfo = { '|'};
+			char[] __delimiterForInfo = { '|','/'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
-			
+
+			__listOfSerials.Add(int.Parse(__infoString[0]));
+
 			GameObject __go = findInList(int.Parse(__infoString[0]));
 			if (__go == null)
 			{
@@ -114,8 +132,32 @@ _foreignDataPackets = new List<DataPacketServer>();
 
 			}
 
+		}
+		
+		
+
+		//apaga os objetos que não estão mais no outro lado
+
+		List<DataPacketServer> __DPToRemove = new List<DataPacketServer>();
+		foreach (DataPacketServer __DP in _foreignDataPackets)
+		{
+			bool found = false;
+			foreach (int x in __listOfSerials)
+				if (__DP.serial == x)
+					found = true;
+			
+			if (!found)
+				__DPToRemove.Add(__DP);
+
 
 		}
+
+		foreach (DataPacketServer __DP in __DPToRemove)
+		{
+			_foreignDataPackets.Remove(__DP);
+			Destroy(__DP.gameObject);
+		}
+
 
 	}
 	private GameObject findInList (int serial)

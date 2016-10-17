@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
 
 public class SummonManager : MonoBehaviour
 {
+	public Action<DataPacketServer> onDestroy;
+	public Action<DataPacketServer> onCreate;
+
     public enum SummonsType
     {
         TURRET
@@ -29,15 +34,15 @@ public class SummonManager : MonoBehaviour
         _dictSummonsPrefab.Add(SummonsType.TURRET, _predfabTurret);
     }
 
-    public DataPacketServer Summon(int p_serial, SummonsType p_summonType, Transform p_parent, Vector3 p_summonPosition, Quaternion p_quaternion)
+    public void Summon(int p_serial, SummonsType p_summonType, Transform p_parent, Vector3 p_summonPosition, Quaternion p_quaternion)
     {
         GameObject __spawnedObject = SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
 		DataPacketServer __dataPacket = __spawnedObject.AddComponent<DataPacketServer>();
-		__dataPacket.serial = p_serial;
-		__dataPacket.position = __spawnedObject.transform.position;
-		__dataPacket.rotation = __spawnedObject.transform.eulerAngles;
-		
-		return __dataPacket;
+		if (onCreate == null)
+			Debug.Log("why?");
+		onCreate(__dataPacket);
+		__dataPacket.type = 0;
+		__dataPacket.onDestroy += onDestroy;
 
     }
 }

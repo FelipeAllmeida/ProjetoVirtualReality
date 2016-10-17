@@ -32,6 +32,8 @@ public class TankManager : MonoBehaviour {
 	public Action<float> rotateTurret;
 	public Action<float> rotateGun;
 	public Action<Vector2> changeTracksState;
+	public Action<DataPacketServer> onCreateBullet;
+	public Action<DataPacketServer> onDestroyBullet;
 
 	public Action<GameStateTank.hudValues> refreshReloadUI;
 
@@ -106,6 +108,13 @@ public class TankManager : MonoBehaviour {
 		{
 			BulletManager _tempBulletManager = (Instantiate(_ammunitionPrefab,_gun.transform.position+ _gun.transform.TransformVector(new Vector3(0,0,3.5f)) ,_gun.transform.rotation) as GameObject).GetComponent<BulletManager>();
 			_tempBulletManager.AInitialize();
+			DataPacketServer __DP = _tempBulletManager.gameObject.AddComponent<DataPacketServer>();
+			__DP.position = _tempBulletManager.transform.position;
+			__DP.rotation = _tempBulletManager.transform.eulerAngles;
+			__DP.type = 3;
+			__DP.onDestroy += onDestroyBullet;
+			onCreateBullet(__DP);
+
 			_myRigidbody.AddForceAtPosition(_gun.transform.TransformVector(0,0,-_tempBulletManager.propellentPower),_gun.transform.position+ _gun.transform.TransformVector(new Vector3(0,0,3.5f)));
 			_currentReloadTime = _reloadTime;
 			_ammo --;
@@ -177,6 +186,21 @@ public class TankManager : MonoBehaviour {
 		
 		if (refreshReloadUI != null);
 			refreshReloadUI(__hudValues);
+
+	}
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "TurretBullet" )
+			TakeDamage();		
+
+	}
+	private void TakeDamage()
+	{
+		if (_health > 0)
+			_health --;
+		else
+			Debug.Log("Trigger Game Over tank");
+
 
 	}
 	private void MoveLeftTracks(EngineDistribution _distribution)

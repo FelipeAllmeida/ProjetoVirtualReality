@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Player : MonoBehaviour 
 {
@@ -8,13 +9,9 @@ public class Player : MonoBehaviour
 
     private InputManager _inputManager;
     private PlayerSkills _playerSkills;
+	public Action<DataPacketServer> onDestroy;
+	public Action<DataPacketServer> onCreate;
 
-	public List<DataPacketServer> getListOfPackets()
-	{
-
-		return _playerSkills.getListOfPackets();
-
-	}
 
 	public void AInitialize() 
     {
@@ -63,8 +60,13 @@ public class Player : MonoBehaviour
     private void InitializePlayerSkills()
     {
         _playerSkills = gameObject.GetComponent<PlayerSkills>();
+		_playerSkills.onDestroy += onDestroy;
+		_playerSkills.onCreate += onCreate;
+
+	
         _playerSkills.AInitialize();
         _playerSkills.AddEnabledSkill(PlayerSkills.SkillType.SUMMON);
+		
     }
 
     public void AUpdate()

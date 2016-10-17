@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BulletManager : MonoBehaviour 
 {
@@ -9,6 +10,7 @@ public class BulletManager : MonoBehaviour
 	private float _rotationSpeed;
 	private GameObject _bulletCam;
 	private float timerBullet;
+
 
 	public void AInitialize()
 	{
@@ -75,7 +77,9 @@ public class BulletManager : MonoBehaviour
 	public void DestroyBullet()
 	{
 		
-		Destroy(this.gameObject);
+		gameObject.GetComponent<DataPacketServer>().HandlerDestroy();
+		Destroy(gameObject);
+		
 
 	}
 

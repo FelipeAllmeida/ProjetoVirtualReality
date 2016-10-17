@@ -44,6 +44,19 @@ public class Turret : MonoBehaviour
                 break;
         }
     }
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.gameObject.tag == "TankBullet" )
+			TakeDamage();		
+
+	}
+	private void TakeDamage()
+	{
+		
+		gameObject.GetComponent<DataPacketServer>().HandlerDestroy();
+		Destroy(gameObject);
+
+	}
 
     private IEnumerator ShootTarget()
     {

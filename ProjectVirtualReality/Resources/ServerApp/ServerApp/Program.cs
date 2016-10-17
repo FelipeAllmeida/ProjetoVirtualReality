@@ -30,7 +30,7 @@ namespace serverApp
 
                 List<TcpClient> clients = new List<TcpClient>();
                 // buffer de leitura
-                Byte[] bytes = new Byte[256];
+                Byte[] bytes = new Byte[1024];
                 String data = null;
                 int counter = 0;
                 tempserver.start();
@@ -71,13 +71,13 @@ namespace serverApp
                                 NetworkStream stream = clients[ci].GetStream();
 
                                 int i;
-                                bytes = new Byte[512];
+                                bytes = new Byte[1024];
                                 stream.ReadTimeout = 1;
                                 if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                                 {
                                     // transforma os dados em ASCII string
                                     data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                                    Console.Write(" data recebida: " + data);
+                                    Console.Write("data recebida: " + data +" por "+ci +"/n");
                                     tempserver.receiveData(ci, data);
                                     stream.Flush();
 
@@ -95,7 +95,7 @@ namespace serverApp
                             if (response.Length > 0)
                             {
                                 NetworkStream stream = clients[ci].GetStream();
-                                Console.Write("data enviada " + response);
+                                Console.Write("data enviada " + response + " por " + ci + "/n");
 
 
                                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(response);

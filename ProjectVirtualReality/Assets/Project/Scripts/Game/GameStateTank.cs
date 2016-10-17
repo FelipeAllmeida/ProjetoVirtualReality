@@ -28,6 +28,8 @@ public class GameStateTank : MonoBehaviour
 	private int serialData;
     #endregion
 
+
+
 	public struct hudValues
 	{
 
@@ -59,10 +61,28 @@ _foreignDataPackets = new List<DataPacketServer>();
 
 	}
 
+	private void DestroyObject(DataPacketServer p_DP)
+	{
+
+		_dataPackets.Remove(p_DP);
+		Destroy(p_DP.gameObject);		
+
+	}
+	private void CreateObject(DataPacketServer p_DP)
+	{
+
+		p_DP.serial = serialData;
+		serialData++;
+		_dataPackets.Add(p_DP);
+
+	}
+
     private void InitializePlayer()
     {
         GameObject __playerGameObject = SpawnerManager.SpawnAt(_prefabPlayer, new Vector3(0f, 0f, 0f), _dynamic, new Quaternion(0f, 0f, 0f, 0f));
         _player = __playerGameObject.GetComponent<TankPlayer>();
+		_player.onCreateBullet += CreateObject;
+		_player.onDestroyBullet += DestroyObject;
 
 
 		DataPacketServer __dataPacketTank = (__playerGameObject.AddComponent<DataPacketServer>());
@@ -107,21 +127,35 @@ _foreignDataPackets = new List<DataPacketServer>();
 		
 
 	}
-	private void generateObjects(string p_receivedData)
+	private void DestroyObject(int serial)
 	{
+		DataPacketServer result = null;
+		foreach(DataPacketServer _dataPacket in _dataPackets)	
+			if (_dataPacket.serial == serial)
+				result = _dataPacket;
+
+		_dataPackets.Remove(result);
+		Destroy(result.gameObject);		
+
+	}
+	private void GenerateObjects(string p_receivedData)
+	{
+		List<int> __listOfSerials = new List<int>();
 
 		char[] delimitersForObjects = { '/'};
 		string[] objStrings = p_receivedData.Split(delimitersForObjects);
 		
 		for (int i=1; i< objStrings.Length; i++)
 		{
-			char[] __delimiterForInfo = { '|'};
+			char[] __delimiterForInfo = { '|','/'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
-			
+
+			__listOfSerials.Add(int.Parse(__infoString[0]));
+
 			GameObject __go = findInList(int.Parse(__infoString[0]));
 			if (__go == null)
 			{
-			//	Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);	
+				
 				__go = Instantiate(prefabsForeignObjects[ int.Parse(__infoString[1])] );
 				char __delimiterForVec = ',';
 				string[] __vecString = __infoString[2].Split(__delimiterForVec);
@@ -144,6 +178,29 @@ _foreignDataPackets = new List<DataPacketServer>();
 			}
 
 		}
+		
+			//apaga os objetos que não estão mais no outro lado
+
+		List<DataPacketServer> __DPToRemove = new List<DataPacketServer>();
+		foreach (DataPacketServer __DP in _foreignDataPackets)
+		{
+			bool found = false;
+			foreach (int x in __listOfSerials)
+				if (__DP.serial == x)
+					found = true;
+			
+			if (!found)
+				__DPToRemove.Add(__DP);
+
+
+		}
+
+		foreach (DataPacketServer __DP in __DPToRemove)
+		{
+			_foreignDataPackets.Remove(__DP);
+			Destroy(__DP.gameObject);
+		}
+
 
 	}
 	private GameObject findInList (int serial)
@@ -173,7 +230,7 @@ _foreignDataPackets = new List<DataPacketServer>();
 			__receivedData = _connectionScript.AUpdate(streamString);   
 		
 			if (__receivedData != "-1")
-				 generateObjects(__receivedData);
+				 GenerateObjects(__receivedData);
 		}
 
 

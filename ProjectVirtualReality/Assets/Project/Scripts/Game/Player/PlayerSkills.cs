@@ -1,19 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class PlayerSkills : MonoBehaviour 
 {
-	private List<DataPacketServer> _dataPackets;
 
+	public Action<DataPacketServer> onDestroy;
+	public Action<DataPacketServer> onCreate;
 	
-	public List<DataPacketServer> getListOfPackets()
-	{
-
-		return _dataPackets;
-
-	}
-
     public enum SkillType
     {
         SUMMON,
@@ -27,14 +22,15 @@ public class PlayerSkills : MonoBehaviour
     {
         InitializeEnableSkills();
         InitializeSkillsManager();
-		_dataPackets = new List<DataPacketServer>();
     }
 
     private void InitializeSkillsManager()
     {
         _summonManager = gameObject.GetComponent<SummonManager>();
-
+		_summonManager.onDestroy += onDestroy;
+		_summonManager.onCreate += onCreate;
         _summonManager.Initialize();
+		
     }
 
     private void InitializeEnableSkills()
@@ -63,8 +59,8 @@ public class PlayerSkills : MonoBehaviour
             {
                 case SkillType.SUMMON:
                     SummonManager.SummonsType p_summonType = (SummonManager.SummonsType)p_skillName;
-					DataPacketServer __GO = _summonManager.Summon(p_serial,p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
-					_dataPackets.Add(__GO);
+					_summonManager.Summon(p_serial,p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
+					
 					
                     break;
                 case SkillType.BLOCK:

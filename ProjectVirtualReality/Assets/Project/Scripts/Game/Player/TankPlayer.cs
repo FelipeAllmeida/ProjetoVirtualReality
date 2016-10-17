@@ -17,6 +17,8 @@ public class TankPlayer : MonoBehaviour
 	[SerializeField] private float reloadTime;
 	
 	public Action<GameStateTank.hudValues> refreshReloadUI;
+	public Action<DataPacketServer> onCreateBullet;
+	public Action<DataPacketServer> onDestroyBullet;
 
 	public void AInitialize() 
     {
@@ -48,7 +50,10 @@ public class TankPlayer : MonoBehaviour
 	private void InitializeTank()
 	{
 		_tankManager = new TankManager();
+		_tankManager.onCreateBullet += onCreateBullet;
+		_tankManager.onDestroyBullet += onDestroyBullet;
 		_tankManager.AInitialize(_leftTrack, _rightTrack, transform.GetComponent<Rigidbody>(),_turret,_gun,_ammunitionPrefab,reloadTime);
+		
 
 	}
     private void InitializeInputManager()
@@ -73,12 +78,7 @@ public class TankPlayer : MonoBehaviour
     {
     	_inputManager.AUpdate();
 		_tankManager.Aupdate();
-
-
 		
     }
-
-   
-
     
 }
