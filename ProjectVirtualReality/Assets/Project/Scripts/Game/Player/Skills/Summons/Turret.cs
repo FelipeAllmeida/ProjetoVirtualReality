@@ -52,7 +52,7 @@ public class Turret : MonoBehaviour
 	}
 	private void TakeDamage()
 	{
-		
+
 		gameObject.GetComponent<DataPacketServer>().HandlerDestroy();
 		Destroy(gameObject);
 

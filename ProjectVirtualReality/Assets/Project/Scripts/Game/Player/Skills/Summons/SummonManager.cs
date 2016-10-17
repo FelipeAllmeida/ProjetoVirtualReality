@@ -38,8 +38,7 @@ public class SummonManager : MonoBehaviour
     {
         GameObject __spawnedObject = SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
 		DataPacketServer __dataPacket = __spawnedObject.AddComponent<DataPacketServer>();
-		if (onCreate == null)
-			Debug.Log("why?");
+	
 		onCreate(__dataPacket);
 		__dataPacket.type = 0;
 		__dataPacket.onDestroy += onDestroy;

@@ -21,7 +21,7 @@ public class DataPacketServer : MonoBehaviour
 		resultString = resultString      + serial
 									+"|" + type
 									+"|" + Math.Round(position.x,6) + "," + Math.Round(position.y,6) + "," + Math.Round(position.z,6)
-									+"|" + Math.Round(rotation.x,6) + "," + Math.Round(rotation.y,6) + "," + Math.Round(rotation.z,6);
+									+"|" + Math.Round(rotation.x,6) + "," + Math.Round(rotation.y,6) + "," + Math.Round(rotation.z,6) + "|";
 
 		return resultString;
 	}

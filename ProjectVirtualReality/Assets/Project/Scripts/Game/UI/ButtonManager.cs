@@ -20,7 +20,7 @@ public class ButtonManager : MonoBehaviour
     {
         _button.onClick.AddListener(delegate
         {
-            Debug.Log(Time.time);
+ 
             if (_cooldownCounter >= _cooldown)
             {
                 _cooldownCounter = 0;

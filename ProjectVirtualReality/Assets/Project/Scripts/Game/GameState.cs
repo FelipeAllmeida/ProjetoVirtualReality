@@ -24,6 +24,7 @@ public class GameState : MonoBehaviour
 	private ConnectionScript _connectionScript;
 	private List<DataPacketServer> _dataPackets;
 	private List<DataPacketServer> _foreignDataPackets;
+	private List<int> _dataPacketsToDestroy;
 	[SerializeField]private GameObject[] prefabsForeignObjects;
 	private int serialData;
     #endregion
@@ -32,6 +33,7 @@ public class GameState : MonoBehaviour
     {
 		_dataPackets = new List<DataPacketServer>();	
 		_foreignDataPackets = new List<DataPacketServer>();	
+		_dataPacketsToDestroy = new List<int>();
 		serialData = 0;
 		
         InitializePlayer();
@@ -85,6 +87,7 @@ public class GameState : MonoBehaviour
 		p_DP.serial = serialData;
 		serialData++;
 		_dataPackets.Add(p_DP);
+		p_DP.gameObject.transform.parent = _dynamic;
 
 	}
 	private void Update () 
@@ -95,46 +98,54 @@ public class GameState : MonoBehaviour
 	}
 	private void GenerateObjects(string p_receivedData)
 	{
-		List<int> __listOfSerials = new List<int>();
-
+		
+		_dataPacketsToDestroy = new List<int>();
 		char[] delimitersForObjects = { '/'};
-		string[] objStrings = p_receivedData.Split(delimitersForObjects);
+		string[] objStrings = p_receivedData.Trim().Split(delimitersForObjects);
 		
 		for (int i=1; i< objStrings.Length; i++)
 		{
 			char[] __delimiterForInfo = { '|','/'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
 
-			__listOfSerials.Add(int.Parse(__infoString[0]));
+			
 
-			GameObject __go = findInList(int.Parse(__infoString[0]));
-			if (__go == null)
+			int x = -1;
+			int.TryParse(__infoString[0],out x);
+			if (x >= 0)
 			{
+				_dataPacketsToDestroy.Add(x);
+				GameObject __go = findInList(x);
+				if (__go == null)
+				{
+					
+					__go = Instantiate(prefabsForeignObjects[ int.Parse(__infoString[1])] );
 				
-				__go = Instantiate(prefabsForeignObjects[ int.Parse(__infoString[1])] );
-				char __delimiterForVec = ',';
-				string[] __vecString = __infoString[2].Split(__delimiterForVec);
-				__go.transform.position = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
-				 __vecString = __infoString[3].Split(__delimiterForVec);
-				__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
-				DataPacketServer __dp =  __go.AddComponent<DataPacketServer>();
-				__dp.serial = int.Parse(__infoString[0]);
-				__dp.type = int.Parse(__infoString[1]);
-				_foreignDataPackets.Add(__dp);
+					char __delimiterForVec = ',';
+					string[] __vecString = __infoString[2].Split(__delimiterForVec);
+					__go.transform.position = new Vector3(float.Parse(__vecString[0].Trim()),float.Parse(__vecString[1].Trim()),float.Parse(__vecString[2].Trim()));
+					 __vecString = __infoString[3].Split(__delimiterForVec);
+					__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0].Trim()),float.Parse(__vecString[1].Trim()),float.Parse(__vecString[2].Trim()));
+					DataPacketServer __dp =  __go.AddComponent<DataPacketServer>();
+					__dp.serial = x;
+					_foreignDataPackets.Add(__dp);
+					
+				}
+				else
+				{
+					char __delimiterForVec = ',';
+					string[] __vecString = __infoString[2].Split(__delimiterForVec);
+					__go.transform.position = new Vector3(float.Parse(__vecString[0].Trim()),float.Parse(__vecString[1].Trim()),float.Parse(__vecString[2].Trim()));
+					 __vecString = __infoString[3].Split(__delimiterForVec);
+					__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0].Trim()),float.Parse(__vecString[1].Trim()),float.Parse(__vecString[2].Trim()));	
+	
+				}
 			}
-			else
-			{
-				char __delimiterForVec = ',';
-				string[] __vecString = __infoString[2].Split(__delimiterForVec);
-				__go.transform.position = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
-				 __vecString = __infoString[3].Split(__delimiterForVec);
-				__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));	
-
-			}
-
 		}
-		
-		
+		cleanList();
+	}
+	private void cleanList()
+	{
 
 		//apaga os objetos que não estão mais no outro lado
 
@@ -142,12 +153,15 @@ public class GameState : MonoBehaviour
 		foreach (DataPacketServer __DP in _foreignDataPackets)
 		{
 			bool found = false;
-			foreach (int x in __listOfSerials)
+			foreach (int x in _dataPacketsToDestroy)
+			{
 				if (__DP.serial == x)
 					found = true;
-			
+			}
 			if (!found)
 				__DPToRemove.Add(__DP);
+
+
 
 
 		}
@@ -158,8 +172,8 @@ public class GameState : MonoBehaviour
 			Destroy(__DP.gameObject);
 		}
 
-
 	}
+
 	private GameObject findInList (int serial)
 	{
 		GameObject result = null;
