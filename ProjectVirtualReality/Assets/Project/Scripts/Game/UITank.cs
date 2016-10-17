@@ -40,8 +40,8 @@ public class UITank : MonoBehaviour {
 		#endif
 		turretRotationImage.transform.localEulerAngles = new Vector3(turretRotationImage.transform.localEulerAngles.x,turretRotationImage.transform.localEulerAngles.y,-value.turretRotation);
 		
-		bodyRotationImage.color = new Color(value.health,1-value.health,0.1f);
-		turretRotationImage.color = new Color(value.health,1-value.health,0.1f);
+		bodyRotationImage.color = new Color(1-value.health,value.health,0.1f);
+		turretRotationImage.color = new Color(1-value.health,value.health,0.1f);
 		if (value.ammo != _currentAmmo)
 		{
 			foreach (GameObject _goAmmo in _currentAmmoGOs)

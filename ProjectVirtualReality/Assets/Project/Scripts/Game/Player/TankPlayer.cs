@@ -49,13 +49,14 @@ public class TankPlayer : MonoBehaviour
 	}
 	private void InitializeTank()
 	{
-		_tankManager = new TankManager();
+		_tankManager = gameObject.AddComponent<TankManager>();
 		_tankManager.onCreateBullet += onCreateBullet;
 		_tankManager.onDestroyBullet += onDestroyBullet;
 		_tankManager.AInitialize(_leftTrack, _rightTrack, transform.GetComponent<Rigidbody>(),_turret,_gun,_ammunitionPrefab,reloadTime);
 		
 
 	}
+	
     private void InitializeInputManager()
     {
         _inputManager = new InputManagerTank();

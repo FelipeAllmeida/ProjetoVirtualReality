@@ -53,8 +53,11 @@ public class BulletManager : MonoBehaviour
 	public void OnTriggerEnter(Collider other)
 	{
 
+		Debug.Log(other);
+
 		Destroy(_bulletCam);
 		setToDestroy();
+		
 		
 
 	}
@@ -69,6 +72,7 @@ public class BulletManager : MonoBehaviour
 
 		_myRigidbody.velocity = Vector3.zero;
 		_myRigidbody.angularVelocity = Vector3.zero;
+		_myRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
 
 		Invoke("DestroyBullet",2);

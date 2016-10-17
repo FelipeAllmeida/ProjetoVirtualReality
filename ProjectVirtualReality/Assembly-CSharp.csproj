@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DataPacketServer.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRBoundary.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
@@ -74,11 +73,11 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRSceneSampleController.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRWaitCursor.cs" />
-     <Compile Include="Assets\Project\Scripts\Game\BulletManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Camera\CameraManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\GameState.cs" />
      <Compile Include="Assets\Project\Scripts\Game\GameStateTank.cs" />
      <Compile Include="Assets\Project\Scripts\Game\InputManagerTank.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\Player\BulletManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\InputManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\Player.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\PlayerSkills.cs" />
@@ -90,13 +89,14 @@
      <Compile Include="Assets\Project\Scripts\Game\UI\ButtonManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\SkillPanel.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\UI.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\UITank.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\ButtonExit.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\ButtonScene.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\ConnectionScript.cs" />
+     <Compile Include="Assets\Project\Scripts\Utility\DataPacketServer.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\Spawner.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\TCPConnection.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\VRMouseLook.cs" />
-     <Compile Include="Assets\UITank.cs" />
      <None Include="Assets\OVR\Shaders\OVRColorRampAlpha.shader" />
      <None Include="Assets\OVR\Shaders\Unlit Crosshair.shader" />
      <None Include="Assets\OVR\Resources\Unlit Transparent Color.shader" />

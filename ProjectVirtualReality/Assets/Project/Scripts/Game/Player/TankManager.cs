@@ -144,7 +144,7 @@ public class TankManager : MonoBehaviour {
 
 		_ammunitionPrefab = ammunitionPrefab;
 
-		_health = 2;
+		_health = 10;
 		_maxHealth = 10;
 
 		_ammo = 31;		
@@ -191,7 +191,11 @@ public class TankManager : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "TurretBullet" )
+		{
 			TakeDamage();		
+			Debug.Log("hit");
+		}
+	
 
 	}
 	private void TakeDamage()

@@ -161,9 +161,6 @@ public class GameState : MonoBehaviour
 			if (!found)
 				__DPToRemove.Add(__DP);
 
-
-
-
 		}
 
 		foreach (DataPacketServer __DP in __DPToRemove)

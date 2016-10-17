@@ -60,8 +60,6 @@ public class PlayerSkills : MonoBehaviour
                 case SkillType.SUMMON:
                     SummonManager.SummonsType p_summonType = (SummonManager.SummonsType)p_skillName;
 					_summonManager.Summon(p_serial,p_summonType, gameObject.transform, __summonPosition, new Quaternion(0f, 0f, 0f, 0f));
-					
-					
                     break;
                 case SkillType.BLOCK:
                     break;
