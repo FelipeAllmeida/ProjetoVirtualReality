@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameState : MonoBehaviour 
 {
@@ -78,6 +79,8 @@ _foreignDataPackets = new List<DataPacketServer>();
 	private void GenerateObjects(string p_receivedData)
 	{
 
+
+
 		char[] delimitersForObjects = { '/'};
 		string[] objStrings = p_receivedData.Split(delimitersForObjects);
 		
@@ -86,20 +89,31 @@ _foreignDataPackets = new List<DataPacketServer>();
 			char[] __delimiterForInfo = { '|'};
 			string[] __infoString = objStrings[i].Split(__delimiterForInfo);
 			
-			GameObject __go = findInList(__infoString[0]);
+			GameObject __go = findInList(int.Parse(__infoString[0]));
 			if (__go == null)
 			{
-			//	Debug.Log("objeto serial " + __infoString[0] + " do tipo "+ __infoString[1] + " encontrado na posição " + __infoString[2]);	
-				__go = Instantiate(prefabsForeignObjects[__infoString[1]]);
-				__go.transform.position = __infoString[3];
-				__go.transform.eulerAngles = __infoString[4];
+				
+				__go = Instantiate(prefabsForeignObjects[ int.Parse(__infoString[1])] );
+				char __delimiterForVec = ',';
+				string[] __vecString = __infoString[2].Split(__delimiterForVec);
+				__go.transform.position = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
+				 __vecString = __infoString[3].Split(__delimiterForVec);
+				__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
+				DataPacketServer __dp =  __go.AddComponent<DataPacketServer>();
+				__dp.serial = int.Parse(__infoString[0]);
+				__dp.type = int.Parse(__infoString[1]);
+				_foreignDataPackets.Add(__dp);
 			}
 			else
 			{
-				__go.transform.position = __infoString[3];
-				__go.transform.eulerAngles = __infoString[4];				
+				char __delimiterForVec = ',';
+				string[] __vecString = __infoString[2].Split(__delimiterForVec);
+				__go.transform.position = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));
+				 __vecString = __infoString[3].Split(__delimiterForVec);
+				__go.transform.eulerAngles = new Vector3(float.Parse(__vecString[0]),float.Parse(__vecString[1]),float.Parse(__vecString[2]));	
 
 			}
+
 
 		}
 
@@ -124,6 +138,7 @@ _foreignDataPackets = new List<DataPacketServer>();
 			streamString= streamString +"/"+__dataPacket.returnData();			
 
 		}
+
 		string __receivedData = "";
 		if (connect)
 		{

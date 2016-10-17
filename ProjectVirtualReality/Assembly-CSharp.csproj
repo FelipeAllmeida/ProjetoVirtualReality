@@ -87,6 +87,7 @@
      <Compile Include="Assets\Project\Scripts\Game\Player\Skills\Summons\Turret.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\TankManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\Player\TankPlayer.cs" />
+     <Compile Include="Assets\Project\Scripts\Game\UI\ButtonManager.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\SkillPanel.cs" />
      <Compile Include="Assets\Project\Scripts\Game\UI\UI.cs" />
      <Compile Include="Assets\Project\Scripts\Utility\ButtonExit.cs" />

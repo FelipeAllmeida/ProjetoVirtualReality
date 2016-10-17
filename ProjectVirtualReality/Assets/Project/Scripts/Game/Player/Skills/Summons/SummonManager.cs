@@ -34,6 +34,8 @@ public class SummonManager : MonoBehaviour
         GameObject __spawnedObject = SpawnerManager.SpawnAt(_dictSummonsPrefab[p_summonType], p_summonPosition, p_parent, p_quaternion);
 		DataPacketServer __dataPacket = __spawnedObject.AddComponent<DataPacketServer>();
 		__dataPacket.serial = p_serial;
+		__dataPacket.position = __spawnedObject.transform.position;
+		__dataPacket.rotation = __spawnedObject.transform.eulerAngles;
 		
 		return __dataPacket;
 

@@ -18,8 +18,8 @@ public class DataPacketServer : MonoBehaviour
 		string resultString = "";
 		resultString = resultString      + serial
 									+"|" + type
-									+"|" + position
-									+"|" + rotation;
+									+"|" + position.x + "," + position.y + "," + position.z
+									+"|" + rotation.x + "," + rotation.y + "," + rotation.z;
 
 		return resultString;
 	}
